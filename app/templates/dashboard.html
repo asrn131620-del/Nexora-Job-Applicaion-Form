@@ -1,0 +1,266 @@
+{% extends "base.html" %}
+
+{% block title %}
+Founder Dashboard · Nexora
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-head">
+
+    <div>
+        <div class="eyebrow">
+            NEXORA · FOUNDER CONSOLE
+        </div>
+
+        <h1>
+            Applications Dashboard
+        </h1>
+
+        <p>
+            Review applicants, documents and application
+            status from one secure workspace.
+        </p>
+    </div>
+
+    <a
+        class="btn ghost"
+        href="{{ url_for('main.founder_logout') }}"
+    >
+        Logout
+    </a>
+
+</div>
+
+
+<div class="stats">
+
+    <div class="stat">
+        <small>Total Applications</small>
+        <strong>{{ applications|length }}</strong>
+    </div>
+
+    <div class="stat">
+        <small>New / Current Results</small>
+        <strong>{{ applications|length }}</strong>
+    </div>
+
+</div>
+
+
+<section class="card">
+
+    <form
+        class="filters"
+        method="get"
+        action="{{ url_for('main.dashboard') }}"
+    >
+
+        <input
+            type="search"
+            name="q"
+            value="{{ q }}"
+            placeholder="Search name, email, phone or Application ID"
+        >
+
+        <select name="status">
+
+            <option value="">
+                All Statuses
+            </option>
+
+            {% for item in statuses %}
+
+                <option
+                    value="{{ item }}"
+                    {% if status == item %}
+                    selected
+                    {% endif %}
+                >
+                    {{ item }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+        <button
+            class="btn primary"
+            type="submit"
+        >
+            Search
+        </button>
+
+        <a
+            class="btn ghost"
+            href="{{ url_for('main.dashboard') }}"
+        >
+            Clear
+        </a>
+
+    </form>
+
+</section>
+
+
+<section class="card">
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Application ID
+                    </th>
+
+                    <th>
+                        Applicant
+                    </th>
+
+                    <th>
+                        Position
+                    </th>
+
+                    <th>
+                        Contact
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                    <th>
+                        Action
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+            {% for a in applications %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            {{ a["application_id"] }}
+                        </strong>
+
+                        <small class="table-date">
+                            {{ a["created_at"][:10] }}
+                        </small>
+
+                    </td>
+
+
+                    <td>
+
+                        <strong>
+                            {{ a["full_name"] }}
+                        </strong>
+
+                        <small class="table-date">
+                            {{ a["email"] }}
+                        </small>
+
+                    </td>
+
+
+                    <td>
+                        {{ a["position"] }}
+                    </td>
+
+
+                    <td>
+                        {{ a["phone"] }}
+                    </td>
+
+
+                    <td>
+
+                        <form
+                            method="post"
+                            action="{{
+                                url_for(
+                                    'main.update_status',
+                                    row_id=a['id']
+                                )
+                            }}"
+                        >
+
+                            <select
+                                name="status"
+                                class="status-select"
+                                onchange="this.form.submit()"
+                            >
+
+                                {% for item in statuses %}
+
+                                    <option
+                                        value="{{ item }}"
+                                        {% if a["status"] == item %}
+                                        selected
+                                        {% endif %}
+                                    >
+                                        {{ item }}
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </form>
+
+                    </td>
+
+
+                    <td>
+
+                        <a
+                            class="btn small"
+                            href="{{
+                                url_for(
+                                    'main.application_detail',
+                                    row_id=a['id']
+                                )
+                            }}"
+                        >
+                            View
+                        </a>
+
+                    </td>
+
+                </tr>
+
+            {% else %}
+
+                <tr>
+
+                    <td
+                        colspan="6"
+                        class="empty"
+                    >
+                        No applications found.
+                    </td>
+
+                </tr>
+
+            {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+{% endblock %}
