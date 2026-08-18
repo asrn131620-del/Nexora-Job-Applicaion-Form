@@ -1,9 +1,10 @@
-from flask import Flask
+ from flask import Flask
 
 from config import (
     SECRET_KEY,
     MAX_CONTENT_MB,
     UPLOAD_DIR,
+    DATABASE_PATH,
 )
 
 from .db import init_app
@@ -27,11 +28,7 @@ def create_app():
         UPLOAD_DIR
     )
 
-    app.config["DATABASE"] = str(
-        UPLOAD_DIR.parent
-        / "instance"
-        / "nexora.db"
-    )
+    app.config["DATABASE"] = DATABASE_PATH
 
     UPLOAD_DIR.mkdir(
         parents=True,
