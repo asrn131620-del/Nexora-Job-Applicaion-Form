@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>
+        {% block title %}
+        Nexora Job Application Portal
+        {% endblock %}
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('main.static', filename='app.css') }}"
+    >
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div class="brand">
+
+        <span class="brandmark">
+            N
+        </span>
+
+        <div>
+            <b>NEXORA DATA SOLUTIONS</b>
+
+            <small>
+                Job Application Portal
+            </small>
+        </div>
+
+    </div>
+
+    <a
+        class="founder-link"
+        href="{{ url_for('main.founder_login') }}"
+    >
+        Founder
+    </a>
+
+</header>
+
+
+<main class="shell">
+
+    {% with messages = get_flashed_messages(
+        with_categories=true
+    ) %}
+
+        {% for category, message in messages %}
+
+            <div class="alert {{ category }}">
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endwith %}
+
+
+    {% block content %}
+    {% endblock %}
+
+</main>
+
+
+<footer>
+
+    NEXORA DATA SOLUTIONS
+    ·
+    Secure Application Intake
+
+</footer>
+
+</body>
+</html>
