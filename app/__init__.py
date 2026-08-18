@@ -1,9 +1,16 @@
 from flask import Flask
-from .db import init_db
-from config import SECRET_KEY, MAX_CONTENT_MB, UPLOAD_DIR
+
+from config import (
+    SECRET_KEY,
+    MAX_CONTENT_MB,
+    UPLOAD_DIR,
+)
+
+from .db import init_app
 
 
 def create_app():
+
     app = Flask(
         __name__,
         template_folder="templates",
@@ -11,14 +18,30 @@ def create_app():
     )
 
     app.config["SECRET_KEY"] = SECRET_KEY
-    app.config["MAX_CONTENT_LENGTH"] = MAX_CONTENT_MB * 1024 * 1024
-    app.config["UPLOAD_DIR"] = str(UPLOAD_DIR)
 
-    UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    app.config["MAX_CONTENT_LENGTH"] = (
+        MAX_CONTENT_MB * 1024 * 1024
+    )
 
-    init_db()
+    app.config["UPLOAD_DIR"] = str(
+        UPLOAD_DIR
+    )
+
+    app.config["DATABASE"] = str(
+        UPLOAD_DIR.parent
+        / "instance"
+        / "nexora.db"
+    )
+
+    UPLOAD_DIR.mkdir(
+        parents=True,
+        exist_ok=True
+    )
+
+    init_app(app)
 
     from .routes import bp
+
     app.register_blueprint(bp)
 
     return app
