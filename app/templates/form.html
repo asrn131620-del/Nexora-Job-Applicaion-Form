@@ -1,0 +1,685 @@
+{% extends "base.html" %}
+
+{% block title %}
+Nexora · Job Application
+{% endblock %}
+
+{% block content %}
+
+<div class="hero">
+
+    <div class="eyebrow">
+        CAREERS · APPLICATION INTAKE
+    </div>
+
+    <h1>
+        Build your next opportunity
+        with <span>Nexora.</span>
+    </h1>
+
+    <p>
+        Complete the application below and upload your
+        required documents. Your Application ID will be
+        generated after successful submission.
+    </p>
+
+</div>
+
+
+<div class="steps">
+
+    <div class="step active">
+        <b>01</b>
+        <span>Details</span>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="step">
+        <b>02</b>
+        <span>Documents</span>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="step">
+        <b>03</b>
+        <span>Confirmation</span>
+    </div>
+
+</div>
+
+
+<form
+    method="post"
+    action="{{ url_for('main.apply') }}"
+    enctype="multipart/form-data"
+>
+
+
+<!-- PERSONAL DETAILS -->
+
+<section class="card">
+
+    <div class="section-head">
+
+        <span>01</span>
+
+        <div>
+
+            <h2>
+                Personal Details
+            </h2>
+
+            <p>
+                Tell us about yourself.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="grid">
+
+        <label>
+            Full Name *
+
+            <input
+                type="text"
+                name="full_name"
+                required
+            >
+        </label>
+
+
+        <label>
+            Email *
+
+            <input
+                type="email"
+                name="email"
+                required
+            >
+        </label>
+
+
+        <label>
+            Phone *
+
+            <input
+                type="tel"
+                name="phone"
+                required
+            >
+        </label>
+
+
+        <label>
+            Date of Birth
+
+            <input
+                type="date"
+                name="dob"
+            >
+        </label>
+
+
+        <label>
+            Gender
+
+            <select name="gender">
+
+                <option value="">
+                    Select
+                </option>
+
+                <option>
+                    Male
+                </option>
+
+                <option>
+                    Female
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+                <option>
+                    Prefer not to say
+                </option>
+
+            </select>
+
+        </label>
+
+
+        <label>
+            City
+
+            <input
+                type="text"
+                name="city"
+            >
+        </label>
+
+
+        <label>
+            State
+
+            <input
+                type="text"
+                name="state"
+            >
+        </label>
+
+
+        <label>
+            Address
+
+            <textarea
+                name="address"
+                placeholder="Enter your complete address"
+            ></textarea>
+
+        </label>
+
+    </div>
+
+</section>
+
+
+<!-- JOB DETAILS -->
+
+<section class="card">
+
+    <div class="section-head">
+
+        <span>02</span>
+
+        <div>
+
+            <h2>
+                Job Preference
+            </h2>
+
+            <p>
+                Tell us about the role you are applying for.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="grid">
+
+        <label>
+            Position Applied For *
+
+            <input
+                type="text"
+                name="position"
+                placeholder="e.g. Data Entry Executive"
+                required
+            >
+
+        </label>
+
+
+        <label>
+            How did you hear about us?
+
+            <select name="source">
+
+                <option value="">
+                    Select
+                </option>
+
+                <option>
+                    Company Website
+                </option>
+
+                <option>
+                    Referral
+                </option>
+
+                <option>
+                    Job Portal
+                </option>
+
+                <option>
+                    Social Media
+                </option>
+
+                <option>
+                    Other
+                </option>
+
+            </select>
+
+        </label>
+
+
+        <label>
+            Availability *
+
+            <select
+                name="availability"
+                required
+            >
+
+                <option value="">
+                    Select
+                </option>
+
+                <option>
+                    Immediate
+                </option>
+
+                <option>
+                    Within 15 Days
+                </option>
+
+                <option>
+                    Within 30 Days
+                </option>
+
+                <option>
+                    More Than 30 Days
+                </option>
+
+            </select>
+
+        </label>
+
+
+        <label>
+            Notice Period
+
+            <input
+                type="text"
+                name="notice_period"
+                placeholder="e.g. 30 Days"
+            >
+
+        </label>
+
+    </div>
+
+</section>
+
+
+<!-- EDUCATION -->
+
+<section class="card">
+
+    <div class="section-head">
+
+        <span>03</span>
+
+        <div>
+
+            <h2>
+                Education & Experience
+            </h2>
+
+            <p>
+                Your academic and professional background.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="grid">
+
+        <label>
+            Highest Education *
+
+            <input
+                type="text"
+                name="education"
+                placeholder="e.g. B.Com"
+                required
+            >
+
+        </label>
+
+
+        <label>
+            Institution / University
+
+            <input
+                type="text"
+                name="institution"
+            >
+
+        </label>
+
+
+        <label>
+            Graduation Year
+
+            <input
+                type="text"
+                name="graduation_year"
+                placeholder="e.g. 2025"
+            >
+
+        </label>
+
+
+        <label>
+            Experience Level
+
+            <select name="experience_level">
+
+                <option value="">
+                    Select
+                </option>
+
+                <option>
+                    Fresher
+                </option>
+
+                <option>
+                    0–1 Year
+                </option>
+
+                <option>
+                    1–3 Years
+                </option>
+
+                <option>
+                    3–5 Years
+                </option>
+
+                <option>
+                    5+ Years
+                </option>
+
+            </select>
+
+        </label>
+
+
+        <label class="full">
+
+            Experience Details
+
+            <textarea
+                name="experience_details"
+                placeholder="Companies, roles, responsibilities, achievements..."
+            ></textarea>
+
+        </label>
+
+
+        <label class="full">
+
+            Skills *
+
+            <textarea
+                name="skills"
+                placeholder="Excel, typing, data entry, communication, software, etc."
+                required
+            ></textarea>
+
+        </label>
+
+    </div>
+
+</section>
+
+
+<!-- SALARY -->
+
+<section class="card">
+
+    <div class="section-head">
+
+        <span>04</span>
+
+        <div>
+
+            <h2>
+                Compensation
+            </h2>
+
+            <p>
+                Expected salary information.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="grid">
+
+        <label>
+
+            Expected Monthly Salary *
+
+            <input
+                type="text"
+                name="expected_salary"
+                placeholder="e.g. Rs 8,000"
+                required
+            >
+
+        </label>
+
+    </div>
+
+</section>
+
+
+<!-- DOCUMENTS -->
+
+<section class="card">
+
+    <div class="section-head">
+
+        <span>05</span>
+
+        <div>
+
+            <h2>
+                Required Documents
+            </h2>
+
+            <p>
+                Upload clear and readable files.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="upload-grid">
+
+
+        <label class="upload">
+
+            <span class="upload-icon">
+                📄
+            </span>
+
+            <b>
+                Resume / CV *
+            </b>
+
+            <small>
+                PDF, DOC or DOCX
+            </small>
+
+            <input
+                type="file"
+                name="resume"
+                accept=".pdf,.doc,.docx"
+                required
+            >
+
+        </label>
+
+
+        <label class="upload">
+
+            <span class="upload-icon">
+                🪪
+            </span>
+
+            <b>
+                Passport Photo *
+            </b>
+
+            <small>
+                JPG, PNG or WEBP
+            </small>
+
+            <input
+                type="file"
+                name="photo"
+                accept=".jpg,.jpeg,.png,.webp"
+                required
+            >
+
+        </label>
+
+
+        <label class="upload">
+
+            <span class="upload-icon">
+                ✍️
+            </span>
+
+            <b>
+                Signature *
+            </b>
+
+            <small>
+                JPG, PNG or WEBP
+            </small>
+
+            <input
+                type="file"
+                name="signature"
+                accept=".jpg,.jpeg,.png,.webp"
+                required
+            >
+
+        </label>
+
+
+        <label class="upload agreement-upload">
+
+            <span class="upload-icon">
+                📑
+            </span>
+
+            <b>
+                Signed Employment Agreement *
+            </b>
+
+            <small>
+                Signed PDF only
+            </small>
+
+            <input
+                type="file"
+                name="agreement"
+                accept=".pdf,application/pdf"
+                required
+            >
+
+        </label>
+
+    </div>
+
+
+    <div class="agreement-row">
+
+        <a
+            class="btn ghost"
+            href="{{ url_for('main.agreement') }}"
+            target="_blank"
+        >
+            View Employment Agreement
+        </a>
+
+        <span>
+            Sign the company-provided agreement before
+            uploading it.
+        </span>
+
+    </div>
+
+</section>
+
+
+<!-- DECLARATION -->
+
+<section class="card declaration">
+
+    <div class="section-head">
+
+        <span>06</span>
+
+        <div>
+
+            <h2>
+                Declaration
+            </h2>
+
+            <p>
+                Confirm your information before submission.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <label class="check">
+
+        <input
+            type="checkbox"
+            name="declaration"
+            required
+        >
+
+        <span>
+            I declare that the information provided in this
+            application is complete and accurate to the best
+            of my knowledge. I understand that submitted
+            documents may be reviewed as part of the hiring
+            process.
+        </span>
+
+    </label>
+
+
+    <button
+        class="btn primary submit"
+        type="submit"
+    >
+
+        Submit Application
+
+        <span>
+            →
+        </span>
+
+    </button>
+
+</section>
+
+
+</form>
+
+{% endblock %}
