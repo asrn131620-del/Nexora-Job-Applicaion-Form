@@ -17,7 +17,12 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 
-from config import FOUNDER_PASSWORD, FOUNDER_USERNAME, UPLOAD_DIR
+from config import (
+    FOUNDER_PASSWORD,
+    FOUNDER_USERNAME,
+    UPLOAD_DIR,
+)
+
 from .db import get_db
 
 
@@ -86,6 +91,8 @@ def founder_required(view):
 
 def new_application_id():
 
+    db = get_db()
+
     while True:
 
         application_id = (
@@ -95,8 +102,6 @@ def new_application_id():
             + secrets.token_hex(3).upper()
         )
 
-        db = get_db()
-
         existing = db.execute(
             """
             SELECT 1
@@ -105,8 +110,6 @@ def new_application_id():
             """,
             (application_id,),
         ).fetchone()
-
-        db.close()
 
         if not existing:
             return application_id
@@ -137,6 +140,11 @@ def save_upload(file, application_id, file_type):
     original_name = secure_filename(
         file.filename
     )
+
+    if not original_name:
+        raise ValueError(
+            f"Invalid {file_type.replace('_', ' ')} filename."
+        )
 
     suffix = Path(
         original_name
@@ -301,7 +309,6 @@ def apply():
                 ?, ?, ?, ?
             )
             """,
-
             (
                 application_id,
 
@@ -311,9 +318,9 @@ def apply():
 
                 "New",
 
-                form.get("full_name"),
-                form.get("email"),
-                form.get("phone"),
+                form.get("full_name").strip(),
+                form.get("email").strip(),
+                form.get("phone").strip(),
 
                 form.get("dob"),
                 form.get("gender"),
@@ -321,19 +328,19 @@ def apply():
                 form.get("state"),
                 form.get("address"),
 
-                form.get("position"),
+                form.get("position").strip(),
                 form.get("source"),
 
-                form.get("education"),
+                form.get("education").strip(),
                 form.get("institution"),
                 form.get("graduation_year"),
 
                 form.get("experience_level"),
                 form.get("experience_details"),
 
-                form.get("skills"),
+                form.get("skills").strip(),
                 form.get("availability"),
-                form.get("expected_salary"),
+                form.get("expected_salary").strip(),
                 form.get("notice_period"),
 
                 1,
@@ -346,7 +353,6 @@ def apply():
         )
 
         db.commit()
-        db.close()
 
     except Exception as error:
 
@@ -357,7 +363,8 @@ def apply():
         )
 
         flash(
-            str(error),
+            "Application could not be submitted. "
+            "Please check your files and try again.",
             "error"
         )
 
@@ -375,11 +382,19 @@ def apply():
 @bp.get("/agreement")
 def agreement():
 
-    agreement_path = Path(
-        "app/static/docs/employment-agreement.pdf"
+    project_root = Path(
+        __file__
+    ).resolve().parent.parent
+
+    agreement_path = (
+        project_root
+        / "app"
+        / "static"
+        / "docs"
+        / "employment-agreement.pdf"
     )
 
-    if not agreement_path.exists():
+    if not agreement_path.is_file():
 
         return render_template(
             "agreement_missing.html"
@@ -512,8 +527,6 @@ def dashboard():
         params
     ).fetchall()
 
-    db.close()
-
     return render_template(
         "dashboard.html",
         applications=applications,
@@ -552,7 +565,6 @@ def update_status(row_id):
     )
 
     db.commit()
-    db.close()
 
     return redirect(
         request.referrer
@@ -576,8 +588,6 @@ def application_detail(row_id):
         """,
         (row_id,)
     ).fetchone()
-
-    db.close()
 
     if not application:
 
@@ -617,8 +627,6 @@ def protected_file(row_id, kind):
         (row_id,)
     ).fetchone()
 
-    db.close()
-
     if not application:
 
         abort(404)
@@ -627,9 +635,12 @@ def protected_file(row_id, kind):
         f"{kind}_file"
     ]
 
-    folder, filename = (
-        relative_path.split("/", 1)
-    )
+    try:
+        folder, filename = (
+            relative_path.split("/", 1)
+        )
+    except ValueError:
+        abort(404)
 
     return send_from_directory(
         Path(UPLOAD_DIR) / folder,
