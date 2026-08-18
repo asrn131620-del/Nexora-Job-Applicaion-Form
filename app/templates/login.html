@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+Founder Login · Nexora
+{% endblock %}
+
+{% block content %}
+
+<div class="login-wrap">
+
+    <div class="login-card">
+
+        <div class="login-mark">
+            N
+        </div>
+
+        <div class="eyebrow">
+            NEXORA · SECURE ACCESS
+        </div>
+
+        <h1>
+            Founder Login
+        </h1>
+
+        <p>
+            Sign in to access the applicant dashboard
+            and manage job applications.
+        </p>
+
+        <form
+            method="post"
+            action="{{ url_for('main.founder_login') }}"
+        >
+
+            <label>
+                Username
+
+                <input
+                    type="text"
+                    name="username"
+                    autocomplete="username"
+                    required
+                >
+            </label>
+
+            <label>
+                Password
+
+                <input
+                    type="password"
+                    name="password"
+                    autocomplete="current-password"
+                    required
+                >
+            </label>
+
+            <button
+                type="submit"
+                class="btn primary full-btn"
+            >
+                Sign In
+                <span>→</span>
+            </button>
+
+        </form>
+
+        <a
+            class="back-link"
+            href="{{ url_for('main.home') }}"
+        >
+            ← Back to Application Portal
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}
