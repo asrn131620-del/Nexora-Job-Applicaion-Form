@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+Application Submitted · Nexora
+{% endblock %}
+
+{% block content %}
+
+<div class="success-card">
+
+    <div class="success-icon">
+        ✓
+    </div>
+
+    <div class="eyebrow">
+        APPLICATION RECEIVED
+    </div>
+
+    <h1>
+        Congratulations, {{ name }}!
+    </h1>
+
+    <p>
+        Your Nexora job application has been
+        submitted successfully.
+    </p>
+
+
+    <div class="app-id">
+
+        <small>
+            APPLICATION ID
+        </small>
+
+        <strong>
+            {{ application_id }}
+        </strong>
+
+    </div>
+
+
+    <p class="muted">
+
+        Please keep this Application ID for your records.
+        The Founder / HR team can use it to review your
+        application and update its status.
+
+    </p>
+
+
+    <a
+        class="btn primary"
+        href="{{ url_for('main.home') }}"
+    >
+        Back to Application Portal
+    </a>
+
+</div>
+
+{% endblock %}
