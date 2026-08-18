@@ -1,0 +1,407 @@
+{% extends "base.html" %}
+
+{% block title %}
+Applicant Details · Nexora
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-head">
+
+    <div>
+        <div class="eyebrow">
+            APPLICATION REVIEW
+        </div>
+
+        <h1>
+            {{ a["full_name"] }}
+        </h1>
+
+        <p>
+            Application ID:
+            <strong>{{ a["application_id"] }}</strong>
+        </p>
+    </div>
+
+    <a
+        class="btn ghost"
+        href="{{ url_for('main.dashboard') }}"
+    >
+        ← Dashboard
+    </a>
+
+</div>
+
+
+<!-- STATUS -->
+
+<section class="card">
+
+    <div class="section-head">
+
+        <span>01</span>
+
+        <div>
+            <h2>
+                Application Status
+            </h2>
+
+            <p>
+                Update the applicant's current stage.
+            </p>
+        </div>
+
+    </div>
+
+
+    <form
+        method="post"
+        action="{{
+            url_for(
+                'main.update_status',
+                row_id=a['id']
+            )
+        }}"
+        class="status-form"
+    >
+
+        <select name="status">
+
+            {% for item in [
+                "New",
+                "Under Review",
+                "Shortlisted",
+                "Rejected"
+            ] %}
+
+                <option
+                    value="{{ item }}"
+                    {% if a["status"] == item %}
+                    selected
+                    {% endif %}
+                >
+                    {{ item }}
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+        <button
+            type="submit"
+            class="btn primary"
+        >
+            Update Status
+        </button>
+
+    </form>
+
+</section>
+
+
+<!-- PERSONAL DETAILS -->
+
+<section class="card">
+
+    <div class="section-head">
+
+        <span>02</span>
+
+        <div>
+            <h2>
+                Personal Details
+            </h2>
+        </div>
+
+    </div>
+
+
+    <div class="detail-grid">
+
+        <div>
+            <small>Full Name</small>
+            <strong>{{ a["full_name"] }}</strong>
+        </div>
+
+        <div>
+            <small>Email</small>
+            <strong>{{ a["email"] }}</strong>
+        </div>
+
+        <div>
+            <small>Phone</small>
+            <strong>{{ a["phone"] }}</strong>
+        </div>
+
+        <div>
+            <small>Date of Birth</small>
+            <strong>{{ a["dob"] or "—" }}</strong>
+        </div>
+
+        <div>
+            <small>Gender</small>
+            <strong>{{ a["gender"] or "—" }}</strong>
+        </div>
+
+        <div>
+            <small>City</small>
+            <strong>{{ a["city"] or "—" }}</strong>
+        </div>
+
+        <div>
+            <small>State</small>
+            <strong>{{ a["state"] or "—" }}</strong>
+        </div>
+
+        <div class="detail-full">
+            <small>Address</small>
+            <strong>{{ a["address"] or "—" }}</strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- JOB DETAILS -->
+
+<section class="card">
+
+    <div class="section-head">
+
+        <span>03</span>
+
+        <div>
+            <h2>
+                Job & Experience
+            </h2>
+        </div>
+
+    </div>
+
+
+    <div class="detail-grid">
+
+        <div>
+            <small>Position</small>
+            <strong>{{ a["position"] }}</strong>
+        </div>
+
+        <div>
+            <small>Source</small>
+            <strong>{{ a["source"] or "—" }}</strong>
+        </div>
+
+        <div>
+            <small>Highest Education</small>
+            <strong>{{ a["education"] }}</strong>
+        </div>
+
+        <div>
+            <small>Institution</small>
+            <strong>{{ a["institution"] or "—" }}</strong>
+        </div>
+
+        <div>
+            <small>Graduation Year</small>
+            <strong>{{ a["graduation_year"] or "—" }}</strong>
+        </div>
+
+        <div>
+            <small>Experience Level</small>
+            <strong>{{ a["experience_level"] or "—" }}</strong>
+        </div>
+
+        <div class="detail-full">
+            <small>Experience Details</small>
+            <strong>
+                {{ a["experience_details"] or "—" }}
+            </strong>
+        </div>
+
+        <div class="detail-full">
+            <small>Skills</small>
+            <strong>{{ a["skills"] }}</strong>
+        </div>
+
+        <div>
+            <small>Availability</small>
+            <strong>{{ a["availability"] }}</strong>
+        </div>
+
+        <div>
+            <small>Notice Period</small>
+            <strong>{{ a["notice_period"] or "—" }}</strong>
+        </div>
+
+        <div>
+            <small>Expected Monthly Salary</small>
+            <strong>{{ a["expected_salary"] }}</strong>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- DOCUMENTS -->
+
+<section class="card">
+
+    <div class="section-head">
+
+        <span>04</span>
+
+        <div>
+            <h2>
+                Uploaded Documents
+            </h2>
+
+            <p>
+                Documents submitted by the applicant.
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="document-grid">
+
+
+        <a
+            class="document-card"
+            href="{{
+                url_for(
+                    'main.protected_file',
+                    row_id=a['id'],
+                    kind='resume'
+                )
+            }}"
+            target="_blank"
+        >
+
+            <span>📄</span>
+
+            <div>
+                <b>Resume / CV</b>
+                <small>Open document</small>
+            </div>
+
+        </a>
+
+
+        <a
+            class="document-card"
+            href="{{
+                url_for(
+                    'main.protected_file',
+                    row_id=a['id'],
+                    kind='photo'
+                )
+            }}"
+            target="_blank"
+        >
+
+            <span>🪪</span>
+
+            <div>
+                <b>Passport Photo</b>
+                <small>Open image</small>
+            </div>
+
+        </a>
+
+
+        <a
+            class="document-card"
+            href="{{
+                url_for(
+                    'main.protected_file',
+                    row_id=a['id'],
+                    kind='signature'
+                )
+            }}"
+            target="_blank"
+        >
+
+            <span>✍️</span>
+
+            <div>
+                <b>Signature</b>
+                <small>Open image</small>
+            </div>
+
+        </a>
+
+
+        <a
+            class="document-card"
+            href="{{
+                url_for(
+                    'main.protected_file',
+                    row_id=a['id'],
+                    kind='agreement'
+                )
+            }}"
+            target="_blank"
+        >
+
+            <span>📑</span>
+
+            <div>
+                <b>Signed Employment Agreement</b>
+                <small>Open signed PDF</small>
+            </div>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- APPLICATION INFO -->
+
+<section class="card">
+
+    <div class="section-head">
+
+        <span>05</span>
+
+        <div>
+            <h2>
+                Application Information
+            </h2>
+        </div>
+
+    </div>
+
+
+    <div class="detail-grid">
+
+        <div>
+            <small>Application ID</small>
+            <strong>{{ a["application_id"] }}</strong>
+        </div>
+
+        <div>
+            <small>Submitted</small>
+            <strong>{{ a["created_at"] }}</strong>
+        </div>
+
+        <div>
+            <small>Declaration Accepted</small>
+            <strong>
+                {% if a["declaration"] %}
+                    Yes
+                {% else %}
+                    No
+                {% endif %}
+            </strong>
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}
